@@ -1,10 +1,9 @@
 #### ExcelBD
 	Proyecto de Mostrado y guardado de datos.
 
-	El proyecto tiene como finalidad mostrar las ventajas de usar los plugins de AlaSQL,
+	El proyecto tiene como finalidad mostrar las ventajas de usar los plugins de SheetJS,
 	el cual nos permite visualizar los datos que tengamos en el excel, usando otro plugin DataTable,
-	el cual nos permite pintar los registros en una tabla de HTML, todo esto nos permite manipular 
-	directamente los datos antes de guardar los datos en la base de datos.
+	con el podemos visualizar los registros en una tabla de HTML.
 
 	El enviado de los datos a la base de datos es por medio de Ajax la cual los recibe una Api con 
 	EntityFramework la cual tiene mapeada nuestra base de datos, al hacer esto guardamos 
