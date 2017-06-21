@@ -1,5 +1,5 @@
 ﻿$(function init() {
-    tblAlumnos;
+    var tblAlumnos;
     traerAlumnos();
     function traerAlumnos() {
         $.ajax({

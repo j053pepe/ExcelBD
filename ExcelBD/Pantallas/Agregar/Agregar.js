@@ -82,7 +82,63 @@
 
     $('#btnGuardar').on('click', function () {
         if (tmpExcel.length > 0) {
+            if (tblAlumnos !== undefined) {
+                $(tblAlumnos[0]).dataTable().api().clear().draw();
+            }
+            //Lista a Enviar
+            var ListaAlumnos = [];
 
+            //Se recorre la variable donde se guardo lo que se tenia en el excel
+            $(tmpExcel).each(function () {
+                //Objeto de Alumno
+                var objAlumno = {
+                    AlumnoId: this.AlumnoId,
+                    Nombre: this.Nombre,
+                    Materno: this.Materno,
+                    Paterno: this.Paterno
+                };
+                //Se agrega el objeto a la lista
+                ListaAlumnos.push(objAlumno);
+            });
+            GuardarAlumnos(JSON.stringify(ListaAlumnos));
         }
     });
+
+    function GuardarAlumnos(Alumnos) {
+        $.ajax({
+            type: "POST",
+            url: "/Api/Alumnos",
+            data: Alumnos,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (d) {
+                if (d.length > 0) {
+                    //limpiamos la variable del excel
+                    tmpExcel = null;
+                    //Asignamos lo que nos regreso el guardado
+                    tmpExcel = d;
+                    //Limpiamos la tabla si tiene datos
+                    if (tblAlumnos !== undefined) {
+                        $(tblAlumnos[0]).dataTable().api().clear().draw();
+                    }
+                    // Creamos la tabla nuevamente
+                    CrearTabla();
+                } else {
+                    //limpiamos la variable del excel
+                    tmpExcel = null;
+                    //Asignamos lo que nos regreso el guardado
+                    tmpExcel = d;
+                    //Limpiamos la tabla si tiene datos
+                    if (tblAlumnos !== undefined) {
+                        $(tblAlumnos[0]).dataTable().api().clear().draw();
+                    }
+                }
+                $('#lblNombre')[0].innerHTML = '';
+                $('#fileAlumnos').val('');
+            },
+            error: function (f) {
+                alert("fallos en la conexion");
+            }
+        });
+    }
 });

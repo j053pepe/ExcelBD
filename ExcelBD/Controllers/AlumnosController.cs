@@ -22,98 +22,39 @@ namespace ExcelBD.Controllers
             return db.Alumnos;
         }
 
-        // GET: api/Alumnos/5
+        [HttpPost]
         [ResponseType(typeof(Alumnos))]
-        public IHttpActionResult GetAlumnos(string id)
+        public IHttpActionResult PostAlumnos([FromBody] List<Alumnos> ListaAlumnos)
         {
-            Alumnos alumnos = db.Alumnos.Find(id);
-            if (alumnos == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(alumnos);
-        }
-
-        // PUT: api/Alumnos/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutAlumnos(string id, Alumnos alumnos)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != alumnos.AlumnoId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(alumnos).State = EntityState.Modified;
-
             try
             {
+                List<Alumnos> AlumnosFallidos = new List<Alumnos>();
+                ListaAlumnos.ForEach(alumno =>
+                {
+                    if (db.Alumnos.Where(al => al.AlumnoId == alumno.AlumnoId).FirstOrDefault() == null)
+                    {
+                        db.Alumnos.Add(new Alumnos
+                        {
+                            AlumnoId = alumno.AlumnoId,
+                            FechaRegistro = DateTime.Now,
+                            HoraRegistro = DateTime.Now.TimeOfDay,
+                            Materno = alumno.Materno,
+                            Nombre = alumno.Nombre,
+                            Paterno = alumno.Paterno
+                        });
+                    }
+                    else
+                    {
+                        AlumnosFallidos.Add(alumno);
+                    }                 
+                });
                 db.SaveChanges();
+                return Ok(AlumnosFallidos);
             }
-            catch (DbUpdateConcurrencyException)
+            catch
             {
-                if (!AlumnosExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return (null);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Alumnos
-        [ResponseType(typeof(Alumnos))]
-        public IHttpActionResult PostAlumnos(Alumnos alumnos)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Alumnos.Add(alumnos);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (AlumnosExists(alumnos.AlumnoId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = alumnos.AlumnoId }, alumnos);
-        }
-
-        // DELETE: api/Alumnos/5
-        [ResponseType(typeof(Alumnos))]
-        public IHttpActionResult DeleteAlumnos(string id)
-        {
-            Alumnos alumnos = db.Alumnos.Find(id);
-            if (alumnos == null)
-            {
-                return NotFound();
-            }
-
-            db.Alumnos.Remove(alumnos);
-            db.SaveChanges();
-
-            return Ok(alumnos);
         }
 
         protected override void Dispose(bool disposing)
