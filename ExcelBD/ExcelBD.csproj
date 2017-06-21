@@ -145,9 +145,9 @@
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Pantallas\Agregar\Agregar.html" />
     <Content Include="Pantallas\Agregar\Agregar.js" />
+    <Content Include="Content\btnFile.css" />
     <Content Include="Pantallas\Listar\Listar.html" />
     <Content Include="Pantallas\Listar\Listar.js" />
-    <Content Include="Pantallas\Agregar\Agregar.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTable\dataTables.bootstrap.js" />
@@ -169,8 +169,8 @@
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
-    <Content Include="Scripts\xlsx\xls.core.min.js" />
-    <Content Include="Scripts\xlsx\xlsx.core.min.js" />
+    <Content Include="Scripts\Sheet\xlsx\xls.core.min.js" />
+    <Content Include="Scripts\Sheet\xlsx\xlsx.core.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

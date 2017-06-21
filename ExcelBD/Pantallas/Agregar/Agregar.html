@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Agregar Alumnos</title>
-    <link href="/Pantallas/Agregar/Agregar.css" rel="stylesheet" />
+    <link href="../../Content/btnFile.css" rel="stylesheet" />
 </head>
 <body>
     <div class="panel-default panel">
@@ -13,32 +13,23 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="row">
+            <div class="row container">
                 <div class="col-md-5">
                     <div class="row fileupload-buttonbar" id="fileArchivo">
-                        <div class="col-md-10">
-                            <!-- The fileinput-button span is used to style the file input field as button -->
-                            <span class="btn btn-success fileinput-button">
-                                <i class="octicon octicon-cloud-upload"></i>
-                                <span id="sMjError">Selecciona tu archivo de Excel a Subir </span>
-                                <input type="file" class="btn fileinput-buttonx" id="fileAlumnos" draggable="true"
-                                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                            </span>
-                        </div>
+                        <span class="btn btn-default btn-file">Examinar...
+                            <input type="file" id="fileAlumnos" draggable="true"
+                                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                        </span>
+                        <label class="control-label" id="lblNombre"></label>
                     </div>
                 </div>
-                <div class="col-md-3 colorBlack">
-                    <span id="txtNombreArchivo" class="fileinput-filename "></span>
-                    <a href="javascript:;" class="close fileinput-exists" data-dissmiss="fileinput" id="btnclose"></a>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-3" id="divGuardar" hidden>
                     <button class="btn btn-primary" id="btnGuardar">Guardar</button>
                 </div>
             </div>
             <div class="col-md-12">
                 <hr />
+                <h3>Datos del Excel</h3>
                 <div class="table-responsive">
                     <table class="table-bordered table" id="tblAlumno">
                         <thead>

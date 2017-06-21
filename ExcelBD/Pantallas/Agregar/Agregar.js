@@ -1,31 +1,29 @@
 ﻿$(function init() {
     //Alumnos
     var tblAlumnos;
+    // Variable en la cuar guadamos los datos del excel
     var tmpExcel = {};
 
+    //Evento del Input
     document.querySelector('input').addEventListener('change', function (e) {
+        tmpExcel = null;
+        if (tblAlumnos !== undefined) {
+            $(tblAlumnos[0]).dataTable().api().clear().draw();
+        }
         e.stopPropagation();
         e.preventDefault();
         var files = e.target.files;
         var i, f;
         //Poner Nombre y opcion de eliminar 
-        var file = $('#fileArchivo');
-        var tex = $('#txtNombreArchivo').html();
-        if (this.files.length > 0) {
-            $('#txtNombreArchivo').text(this.files[0].name);
-            file.addClass('fileinput-exists').removeClass('fileinput-new');
-            $('#fileArchivo span span').text('Cambiar');
-            $('#btnclose').show();
+        if (files.length ==0) {
+            $('#lblNombre')[0].innerHTML = '';
+            $('#divGuardar').hide();
         }
-        else {
-            $('#txtNombreArchivo').text('');
-            file.removeClass('fileinput-exists').addClass('fileinput-new');
-            $('#fileArchivo span span').text('Selecciona tu archivo de Excel a Subir');
-            $('#btnclose').hide();
-        }
+        //Ciclo para recorrer si hay mas archivos
         for (i = 0, f = files[i]; i != files.length; ++i) {
             var reader = new FileReader();
             var name = f.name;
+            $('#lblNombre')[0].innerHTML = name;
             reader.onload = function (e) {
                 var data = e.target.result;
 
@@ -39,16 +37,7 @@
         }
     }, false);
 
-    $('#fileArchivo a').click(function () {
-        var file = $('#fileAlumnos');
-        $('#txtNombreArchivo').text('');
-        file.removeClass('fileinput-exists').addClass('fileinput-new');
-        File[0] = null;
-        $('#fileArchivo span span').text('Selecciona tu archivo de Excel a Subir');
-        if (tblRegistros != null) { tblRegistros.fnClearTable(); tmpExcel = null; }
-        $('#btnclose').hide();
-    });
-
+    //Funcion para convertir a Json 
     function to_json(workbook) {
         workbook.SheetNames.forEach(function (sheetName) {
             var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
@@ -59,10 +48,12 @@
         CrearTabla();
     }
 
+    //Cargamos los datos a la tabla
     function CrearTabla() {
         if (tmpExcel.length > 0) {
             $('#divGuardar').show();
         } else { $('#divGuardar').hide(); }
+
         tblAlumnos = $('#tblAlumno').dataTable({
             "aaData": tmpExcel,
             "aoColumns": [
@@ -88,6 +79,7 @@
             "order": [[1, "desc"]]
         });
     }
+
     $('#btnGuardar').on('click', function () {
         if (tmpExcel.length > 0) {
 
